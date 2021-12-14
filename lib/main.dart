@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:crypto_tracker/services/api_services.dart';
 import 'dart:core';
 import 'dart:async';
+
+import 'dart:math' as math;
 void main(){
   runApp(CryptoTracker());
 }
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomePage> {
 
   void initState(){
     super.initState();
-    print("hello");
+    // print("hello");
       _ccurr= APIService.instance.readJson();
       // print(_ccurr);
      toList();
@@ -60,7 +62,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void toList() async{
-    print('tolist');
+    // print('tolist');
       List ? data=await _ccurr;
       // print("data= $data");
       setState(() {
@@ -68,17 +70,19 @@ class _HomePageState extends State<HomePage> {
 
       });
 
-    //  for (int i=0;i<int.parse((all_assets?.length).toString());i++){
-    //      {
-    //       if (all_assets?[i]["type_is_crypto"]==1){
-    //         print(all_assets?[i]['name']);
+     for (int i=0;i<int.parse((all_assets?.length).toString());i++){
+         {
+          if (all_assets?[i]["type_is_crypto"]==1){
+            // print(all_assets?[i]['name']);
 
-    //         crypto_currencies?.add(all_assets?[i]);
+            crypto_currencies?.add(all_assets?[i]);
 
 
-    //       }
-    //      }}
+          }
+         }}
     }
+
+    
   @override
   Widget build(BuildContext context) {
     // print(_ccurr);
@@ -93,11 +97,11 @@ class _HomePageState extends State<HomePage> {
           children: [
             SizedBox(
               width: MediaQuery.of(context ).size.width*1,
-              height: MediaQuery.of(context ).size.width*0.1,
+              height: MediaQuery.of(context ).size.width*0.03,
 
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Colors.pink[900],
+                  // color: Colors.pink[900],
                 ),
                 ),
               ),
@@ -114,6 +118,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(
                     fontSize: MediaQuery.of(context ).size.width*0.057,
                     fontWeight: FontWeight.bold,
+                    
                   ),
                   ),
                 ],
@@ -123,6 +128,7 @@ class _HomePageState extends State<HomePage> {
               child: ListView.builder(
                 
                 itemCount: crypto_currencies?.length,
+                
                 itemBuilder: (context , index){
                   
                 // if (all_assets?[i]["type_is_crypto"]==0){
@@ -130,9 +136,28 @@ class _HomePageState extends State<HomePage> {
                 // }
                 
                   return Card(
+                    
                     child: ListTile(
-                      title: Text(crypto_currencies?[index]['name']),
-                    subtitle: Text ((crypto_currencies?[index]['price_usd']).toString()),   
+                      leading: CircleAvatar(
+                        backgroundColor: Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                        
+                      ),
+                      title: Text(
+                        crypto_currencies?[index]['name'],
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.width*0.05,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        ),
+                    subtitle: Text (
+                      ((crypto_currencies?[index]['price_usd']).toString()),
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                      ), 
+                          
+                         
+                        
                     ),
                     
                   );
